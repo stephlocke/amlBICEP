@@ -1,0 +1,11 @@
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+az bicep upgrade
+az login
+az account set --subscription 6d880000-a000-4000-9000-90001000a000
+az bicep build --file aml.bicep
+az group create --name latestdsworkflow --location "UK South"
+az deployment group create \
+--resource-group latestdsworkflow \
+--name aml_deployment \
+--template-file aml.bicep \
+--parameters namePrefix=amlsl incContainerRegistry=true
